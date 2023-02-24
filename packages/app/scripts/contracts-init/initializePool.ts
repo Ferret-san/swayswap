@@ -10,17 +10,21 @@ export async function initializePool(
   exchangeContract: ExchangeContractAbi,
   overrides: { gasPrice: BigNumberish }
 ) {
+  process.stdout.write('Initializing pool...\n');
   // const wallet = tokenContract.wallet!;
   const tokenAmount = bn(TOKEN_AMOUNT || '0x44364C5BB0000');
   const ethAmount = bn(ETH_AMOUNT || '0xE8F2727500');
   const address = {
-    value: tokenContract.account!.address!.toString(),
+    value: tokenContract.account!.address!.toB256(),
   };
   const tokenId = {
     value: tokenContract.id.toB256(),
   };
 
+  process.stdout.write('Minting coins...\n');
   await tokenContract.functions.mint_coins(tokenAmount).txParams(overrides).call();
+  process.stdout.write('Transferring token to output...\n');
+  process.stdout.write(`'Address: ${address.value}\n'`);
   await tokenContract.functions
     .transfer_token_to_output(tokenAmount, tokenId, address)
     .txParams({

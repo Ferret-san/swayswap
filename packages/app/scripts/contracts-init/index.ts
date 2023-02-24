@@ -16,7 +16,9 @@ if (!WALLET_SECRET) {
 
 async function main() {
   const wallet = Wallet.fromPrivateKey(WALLET_SECRET!, PROVIDER_URL);
+  process.stdout.write(`'Exchange contract id: ${VITE_CONTRACT_ID}\n'`);
   const exchangeContract = ExchangeContractAbi__factory.connect(VITE_CONTRACT_ID!, wallet);
+  process.stdout.write(`'Token contract id: ${VITE_TOKEN_ID}\n'`);
   const tokenContract = TokenContractAbi__factory.connect(VITE_TOKEN_ID!, wallet);
   const overrides = {
     gasPrice: bn(GAS_PRICE || 0),
